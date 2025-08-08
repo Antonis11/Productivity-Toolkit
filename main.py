@@ -71,5 +71,43 @@ fileMenu.add_cascade(label="Open", command=openFile)
 fileMenu.add_cascade(label="Save", command=saveFile)
 fileMenu.add_cascade(label="New", command=newFile)
 
+# Tab To Do List
+
+def add():
+    global index
+    listbox.insert(index,entry.get())
+    index += 1
+    entry.delete(0, END)
+
+def delete():
+    for index in reversed(listbox.curselection()):
+        listbox.delete(index)
+
+def complete():
+    selection = listbox.curselection()
+    if selection:
+        index = selection[0]
+        old_text = listbox.get(index)
+        new_text = old_text + " ✅"
+        listbox.delete(index)
+        listbox.insert(index, new_text)
+
+index = 1
+
+entry = Entry(to_do_list, font=('Arial',20))
+entry.place(relx=0.01, rely=0.07, anchor="w")
+
+add_button = Button(to_do_list, width=5, text="Add", command=add)
+add_button.place(relx=0.77, rely=0.07, anchor="e")
+
+listbox = Listbox(to_do_list, height=10, width=60)
+listbox.place(relx=0.01, rely=0.5, anchor="w")
+
+delete_button = Button(to_do_list, width=5, text="Delete", command=delete)
+delete_button.place(relx=0.32, rely=0.8, anchor="center")
+
+complete_task_button = Button(to_do_list, width=8, text="Complete", command=complete)
+complete_task_button.place(relx=0.44, rely=0.8, anchor="center")
+
 
 window.mainloop()
