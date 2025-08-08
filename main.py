@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
+from tkinter import colorchooser
+from tkinter import font
 
 window = Tk()
 window.title("Productivity Toolkit")
@@ -108,6 +110,76 @@ delete_button.place(relx=0.32, rely=0.8, anchor="center")
 
 complete_task_button = Button(to_do_list, width=8, text="Complete", command=complete)
 complete_task_button.place(relx=0.44, rely=0.8, anchor="center")
+
+# Tab Settings
+
+def change_fg_color_notes():
+    color = colorchooser.askcolor(title="Choose Text Color")
+    colorHex = color[1]
+    text.config(fg=colorHex)
+    fg_color_preview.config(bg=colorHex)
+
+def change_bg_color_notes():
+    color = colorchooser.askcolor(title="Choose Background Color")
+    colorHex = color[1]
+    text.config(bg=colorHex)
+    bg_color_preview.config(bg=colorHex)
+
+frame = Frame(settings)
+frame.place(x=0,y=0)
+
+notes_tab = Label(frame, text="Notebook:", font=font.Font(underline=1, family="Arial", size=14))
+notes_tab.grid(row=0, column=0, padx=5, columnspan=2)
+
+foreground_notes = Label(frame, text="Text Color:")
+foreground_notes.grid(row=1, column=0)
+
+fg_color_preview = Label(frame, width=3, bg="green", relief="solid")
+fg_color_preview.grid(row=1, column=1, pady=5)
+fg_color_preview.bind("<Button-1>", lambda e: change_fg_color_notes())
+
+background_notes = Label(frame, text="Background Color:")
+background_notes.grid(row=2,column=0)
+
+bg_color_preview = Label(frame, width=3, bg="light yellow", relief="solid")
+bg_color_preview.grid(row=2, column=1)
+bg_color_preview.bind("<Button-1>", lambda e: change_bg_color_notes())
+
+def set_light_mode():
+    to_do_list.config(bg="SystemButtonFace")
+    entry.config(bg="SystemWindow", fg="SystemWindowText")
+    listbox.config(bg="SystemWindow", fg="SystemWindowText")
+    add_button.config(bg="SystemButtonFace", fg="SystemButtonText")
+    delete_button.config(bg="SystemButtonFace", fg="SystemButtonText")
+    complete_task_button.config(bg="SystemButtonFace", fg="SystemButtonText")
+
+def set_dart_mode():
+    to_do_list.config(bg="#2E2E2E")
+    text.config(bg="#1E1E1E", fg="white", insertbackground="white")
+    add_button.config(bg="#3C3F41", fg="white")
+    delete_button.config(bg="#3C3F41", fg="white")
+    complete_task_button.config(bg="#3C3F41", fg="white")
+
+options = ["light","dark"]
+
+def choose_mode():
+    if(x.get() == 0):
+        set_light_mode()
+    elif(x.get() == 1):
+        set_dart_mode()
+
+x = IntVar()
+
+to_do_list_tab = Label(frame, text="To Do List:", font=font.Font(underline=1, family="Arial", size=14))
+to_do_list_tab.grid(row=3, column=0, padx=5, columnspan=2)
+
+mode_to_do_list = Label(frame, text="Mode:")
+mode_to_do_list.grid(row=4, column=0)
+
+for index in range(len(options)):
+    radiob = Radiobutton(frame, text=options[index], value=index, variable=x, command=choose_mode)
+
+    radiob.grid(row=4, column=index+1)
 
 
 window.mainloop()
