@@ -181,5 +181,44 @@ for index in range(len(options)):
 
     radiob.grid(row=4, column=index+1)
 
+# Tab Painting
+
+def old_point(event):
+    global old_x, old_y
+    old_x, old_y = event.x, event.y
+
+def new_point(event):
+    global old_x, old_y
+    new_x, new_y = event.x, event.y
+
+    canvas.create_line(old_x, old_y, new_x, new_y, fill=current_color, width=2)
+
+    old_x, old_y = new_x, new_y
+    
+def change_color():
+    global current_color
+    color = colorchooser.askcolor(title="Choose Color")
+    colorHex = color[1]
+    current_color=colorHex
+    color_label.config(bg=colorHex)
+
+def clear():
+    canvas.delete("all")
+
+current_color = "black"
+
+canvas = Canvas(painting)
+canvas.pack()
+
+canvas.bind("<Button-1>", old_point)
+canvas.bind("<B1-Motion>", new_point)
+
+color_label = Label(painting, width=3, bg=current_color, relief="solid")
+color_label.place(relx=0.42, rely=0.94)
+color_label.bind("<Button-1>", lambda e: change_color())
+
+clear_button = Button(painting, text="Clear", width=5, command=clear)
+clear_button.place(relx=0.49, rely=0.93)
+
 
 window.mainloop()
