@@ -220,5 +220,19 @@ color_label.bind("<Button-1>", lambda e: change_color())
 clear_button = Button(painting, text="Clear", width=5, command=clear)
 clear_button.place(relx=0.49, rely=0.93)
 
+# Tab About
+
+about_text = "This application is a productivity toolkit for daily use.\n " \
+            "It includes a notebook, a to-do list, a drawing tool, and display settings."
+
+communication_text = "Phone: 6987654321 \n" \
+                    "Email: email@gmail.com"
+
+about_label = Label(about, text=about_text)
+about_label.pack(side="top")
+
+communication_label = Label(about, text=communication_text)
+communication_label.pack(side="bottom")
+
 
 window.mainloop()
